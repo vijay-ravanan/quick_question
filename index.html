@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For My Love ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    .message {
+      font-size: 2.8rem;
+      color: #ff1e56; /* 🎨 CHANGE COLOR HERE */
+      opacity: 0;
+      transform: scale(0.5);
+      animation: popIn 2s ease forwards;
+      text-align: center;
+    }
+
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.5); }
+      70% { transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .heart {
+      font-size: 3rem;
+      animation: heartbeat 1s infinite;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      25% { transform: scale(1.2); }
+      50% { transform: scale(1); }
+      75% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: none;
+    }
+
+    button {
+      padding: 12px 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .yes {
+      background: #ff4d6d;
+      color: white;
+    }
+
+    .no {
+      background: #ccc;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- 🎵 Music -->
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+  </audio>
+
+  <canvas id="confetti"></canvas>
+
+  <div class="message" id="text"></div>
+  <div class="heart">❤️</div>
+
+  <div class="buttons" id="buttons">
+    <button class="yes" onclick="sayYes()">Yes ❤️</button>
+    <button class="no" onclick="sayNo()">No 😅</button>
+  </div>
+
+  <script>
+    const name = "Aarthi Bujji ma"; // 💖 change name
+    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeC79y-xoq-0tfpkc7UBBoxIjLNXlukAuWEG2_M3FCQm5zmzA/viewform?usp=pp_url&entry.1074784119=Yes"; // 📊 your form
+
+    const text = `I love you, ${name} ❤️ what do you say`;
+    let i = 0;
+
+    function typeEffect() {
+      if (i < text.length) {
+        document.getElementById("text").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(typeEffect, 80);
+      } else {
+        setTimeout(() => {
+          document.getElementById("buttons").style.display = "block";
+        }, 1000);
+      }
+    }
+
+    setTimeout(typeEffect, 1000);
+
+    const noMessages = [
+      "Are you sure? 😢",
+      "Think again 😏",
+      "I’ll wait... ❤️",
+      "Don’t break my heart 💔",
+      "Last chance 😜",
+      "You clicked wrong 😆",
+      "Try again please 🙈",
+      "Be honest 😍",
+      "I know you want to say yes 😉",
+      "Okay okay... one more try 😄"
+    ];
+
+    let noIndex = 0;
+
+    function sayYes() {
+      document.getElementById("text").innerHTML = "Yes… Your CutiePie loves you as well 😘💖";
+      document.getElementById("buttons").style.display = "none";
+      startConfetti();
+      sendToGoogleSheet("Yes");
+    }
+
+    function sayNo() {
+      alert(noMessages[noIndex]);
+      noIndex = (noIndex + 1) % noMessages.length;
+
+      const btn = document.querySelector(".no");
+      btn.style.position = "absolute";
+      btn.style.top = Math.random() * window.innerHeight + "px";
+      btn.style.left = Math.random() * window.innerWidth + "px";
+
+      sendToGoogleSheet("No");
+    }
+
+    function sendToGoogleSheet(answer) {
+      if (!formURL.includes("TEST")) return;
+
+      const data = answer + " - " + new Date().toLocaleString();
+      const finalURL = formURL.replace("TEST", encodeURIComponent(data));
+
+      fetch(finalURL, {
+        method: "GET",
+        mode: "no-cors"
+      });
+    }
+
+    // 🎉 Simple Confetti
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let particles = [];
+
+    function startConfetti() {
+      for (let i = 0; i < 150; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 6,
+          speedY: Math.random() * 3 + 2
+        });
+      }
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach(p => {
+        ctx.fillRect(p.x, p.y, p.size, p.size);
+        p.y += p.speedY;
+
+        if (p.y > canvas.height) {
+          p.y = 0;
+        }
+      });
+
+      requestAnimationFrame(animateConfetti);
+    }
+  </script>
+
+</body>
+</html>
