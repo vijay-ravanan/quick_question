@@ -95,6 +95,9 @@
   </div>
 
   <script>
+    window.onload = function() {
+      logVisit();
+    };
     const name = "Aarthi Bujji ma"; // 💖 change name
     // const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeC79y-xoq-0tfpkc7UBBoxIjLNXlukAuWEG2_M3FCQm5zmzA/viewform?usp=pp_url&entry.1074784119=TEST"; // 📊 your form
 
@@ -203,6 +206,26 @@
       });
 
       requestAnimationFrame(animateConfetti);
+    }
+
+    function logVisit() {
+    const data = "Visited" // + new Date().toLocaleString();
+
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeC79y-xoq-0tfpkc7UBBoxIjLNXlukAuWEG2_M3FCQm5zmzA/formResponse";
+    form.target = "hidden_iframe";
+
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "entry.1074784119";
+    input.value = data;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+
+    document.body.removeChild(form);
     }
   </script>
 
