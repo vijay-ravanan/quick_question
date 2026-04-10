@@ -78,7 +78,7 @@
 </head>
 
 <body>
-
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
   <!-- 🎵 Music -->
   <audio autoplay loop>
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
@@ -96,9 +96,9 @@
 
   <script>
     const name = "Aarthi Bujji ma"; // 💖 change name
-    const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeC79y-xoq-0tfpkc7UBBoxIjLNXlukAuWEG2_M3FCQm5zmzA/viewform?usp=pp_url&entry.1074784119=Yes"; // 📊 your form
+    // const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeC79y-xoq-0tfpkc7UBBoxIjLNXlukAuWEG2_M3FCQm5zmzA/viewform?usp=pp_url&entry.1074784119=TEST"; // 📊 your form
 
-    const text = `I love you, ${name} ❤️ what do you say`;
+    const text = `I love you, ${name} ❤️ will you be mine? 💍💞`;
     let i = 0;
 
     function typeEffect() {
@@ -131,7 +131,7 @@
     let noIndex = 0;
 
     function sayYes() {
-      document.getElementById("text").innerHTML = "Yes… I knew it - Your CutiePie loves you as well 😘💖";
+      document.getElementById("text").innerHTML = "Yeah I knew it!… Lets get married soon I can't wait anymore 😘💖";
       document.getElementById("buttons").style.display = "none";
       startConfetti();
       sendToGoogleSheet("Yes");
@@ -150,15 +150,23 @@
     }
 
     function sendToGoogleSheet(answer) {
-      if (!formURL.includes("TEST")) return;
+    const data = answer // + " - " + new Date().toLocaleString();
 
-      const data = answer + " - " + new Date().toLocaleString();
-      const finalURL = formURL.replace("TEST", encodeURIComponent(data));
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "https://docs.google.com/forms/d/e/1FAIpQLSeC79y-xoq-0tfpkc7UBBoxIjLNXlukAuWEG2_M3FCQm5zmzA/formResponse";
+    form.target = "hidden_iframe";
 
-      fetch(finalURL, {
-        method: "GET",
-        mode: "no-cors"
-      });
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = "entry.1074784119";
+    input.value = data;
+
+    form.appendChild(input);
+    document.body.appendChild(form);
+    form.submit();
+
+    document.body.removeChild(form);
     }
 
     // 🎉 Simple Confetti
@@ -199,4 +207,5 @@
   </script>
 
 </body>
+
 </html>
