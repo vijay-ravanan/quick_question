@@ -80,8 +80,8 @@
 <body>
   <iframe name="hidden_iframe" style="display:none;"></iframe>
   <!-- 🎵 Music -->
-  <audio autoplay loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+  <audio autoplay loop preload="auto">
+    <source src="https://raw.githubusercontent.com/vijay-ravanan/quick_question/main/minale.mp3" type="audio/mpeg">
   </audio>
 
   <canvas id="confetti"></canvas>
@@ -95,9 +95,16 @@
   </div>
 
   <script>
+    // music preload
+    document.body.addEventListener("click", () => {
+      document.getElementById("bgMusic").play();
+    }, { once: true });
+
+    // site visit count 
     window.onload = function() {
       logVisit();
     };
+    
     const name = "Aarthi Bujji ma"; // 💖 change name
     // const formURL = "https://docs.google.com/forms/d/e/1FAIpQLSeC79y-xoq-0tfpkc7UBBoxIjLNXlukAuWEG2_M3FCQm5zmzA/viewform?usp=pp_url&entry.1074784119=TEST"; // 📊 your form
 
